@@ -1,0 +1,202 @@
+body,
+ul,
+button,
+input ,
+h1{
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+ul {
+  list-style: none;
+}
+
+input,
+button {
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
+
+#app {
+  width: 550px;
+  margin: auto;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 0 0px 10px 0px #b4b3b3;
+}
+
+#app .toggle button.active {
+  border: 1px solid pink;
+  border-radius: 5px;
+}
+
+#app::after, #app::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 4px;
+  background-color: #fafafa;
+  box-shadow: 0 1px 2px 0px #b4b3b3;
+}
+
+#app::before {
+  bottom: -4.2px;
+  width: 98.5%;
+  z-index: 5;
+}
+
+#app::after {
+  bottom: -8px;
+  width: 97%;
+  height: 3.5px;
+}
+
+
+.title {
+  color: #e9d6d6;
+  font-size: 80px;
+  text-align: center;
+}
+
+.header {
+  border-bottom: 2px solid #ededed;
+  flex-direction: row;
+}
+
+.header > div {
+  display: flex;
+}
+
+.header .AllSelect {
+  flex-basis: 65px;
+  font-weight: bolder;
+  cursor: pointer;
+  background: url(./images/btndefault.png)no-repeat center;
+  background-size: 30px;
+  position: relative;
+}
+.header .AllSelect::after{
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 45px;
+  top: 0;
+  bottom: 0;
+  right: 1px;
+  margin: auto;
+  border-right: 2px #e5e5e5 dashed;
+}
+.header button.active {
+  background: url(./images/btnactive.png)no-repeat center;
+  background-size: 30px;
+}
+.header input {
+  flex: 1;
+  height: 65px;
+  font-size: 25px;
+  text-indent: 1em;
+}
+
+.header input::placeholder {
+  color: #e6e6e6;
+  font-size: 25px;
+}
+
+.con ul li {
+  height: 58px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 20px;
+  padding-right: 10px;
+  border-bottom: 1px solid #ededed;
+}
+
+.con ul li > input {
+  flex-basis: 50px;
+  color: #ff66ff;
+  width: 21.66667px;
+  height: 21.66667px;
+}
+
+.con ul li > div {
+  flex: 1;
+  height: 100%;
+  line-height: 58px;
+  position: relative;
+  user-select: none;
+}
+
+.con ul li > div input {
+  width: 108%;
+  height: 98%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1px solid #e5e5e5;
+  font-size: 25px;
+  box-shadow: 0 0 10px 0px #acabab inset;
+}
+
+.con ul li > button {
+  flex-basis: 30px;
+  color: #e68495;
+  float: right;
+}
+
+.con ul li>div.active {
+  color: #e6e6e6;
+  text-decoration: line-through;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  height: 43.33333px;
+  padding: 0 20px;
+  color: #777784;
+  /* border-bottom: #dbdada 1px solid; */
+}
+
+.footer .count {
+  flex-basis: 160px;
+}
+
+.footer .clearCom button {
+  color: #777784;
+  cursor: pointer;
+}
+
+.footer .clearCom button:hover {
+  text-decoration: underline;
+}
+
+.footer .toggle {
+  flex: 1;
+}
+
+.footer .toggle button {
+  color: #777784;
+  border: 0;
+  background-color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+}
+.footer::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  height: 3.5px;
+  z-index: 10;
+  box-shadow: 0 1px 2px 0px #b4b3b3;
+} 
