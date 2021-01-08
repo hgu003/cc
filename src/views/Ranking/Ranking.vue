@@ -34,8 +34,10 @@
         <van-tab title="出版"></van-tab>
       </van-tabs>
 
+      <router-view :active="active" :leftNav="leftNav"></router-view>
+      <!-- <rank-list   :active="active" :leftNav="leftNav"></rank-list> -->
       <!--榜单选择 -->
-      <van-tree-select
+      <!-- <van-tree-select
         :items="items"
         :active-id.sync="activeId"
         :main-active-index.sync="activeIndex"
@@ -79,29 +81,31 @@
             </template>
           </van-card>
         </template>
-      </van-tree-select>
+      </van-tree-select> -->
     </div>
   </div>
 </template>
 
 <script>
+// import RankList from "./RankList"
 export default {
+  components: {
+    // RankList,
+  },
   data() {
     return {
       headerBooks: [],
-      active: 0,
+      active: 1,
       // 榜单
-      items: [{text:'111'},{text:'444'}],
-      activeId: 1,
-      activeIndex: 0,
-      leftNav: [{text:'111'},{text:'444'}],
-      rightContent: [],
+      // items: [{text:'111'},{text:'444'}],
+      // activeId: 1,
+      // activeIndex: 0,
+      leftNav: [{ text: "111" }, { text: "444" }],
+      // rightContent: [],
       loading: true,
     };
   },
-  beforeCreate() {
-    this.$store.commit("toggleBottomNavShow", false);
-  },
+
   beforeRouteEnter(to, from, next) {
     window
       .axios(
@@ -109,80 +113,30 @@ export default {
       )
       .then((e) => {
         next((vm) => {
+          console.log(vm.$route.query.type);
+          //头部小说
           vm.headerBooks = e.data.data.spread[0].advs;
+          //左边导航数据
           vm.leftNav = e.data.data.nodes;
-          vm.items = vm.leftNav[2].nodes.map((item) => {
-            return { id:item.id, text: item.title };
-          });
-          vm.getTypeBooks(vm.items[0].id);
 
+          //判断跳到哪个类型
+          switch (vm.$route.query.type) {
+            case "female":
+              vm.active = 1;
+              break;
+            case "publish":
+              vm.active = 2;
+              break;
+            case "male":
+              vm.active = 0;
+              break;
+            default:
+              vm.active = 0;
+              break;
+          }
         });
       });
   },
-  watch: {
-    active(n) {
-      switch (n) {
-        case 0:
-          this.items = this.leftNav[2].nodes.map((item) => {
-            return { id:item.id, text: item.title };
-          });
-          break;
-        case 1:
-          this.items = this.leftNav[1].nodes.map((item) => {
-            return { id:item.id, text: item.title };
-          });
-          break;
-        default:
-          this.items = this.leftNav[0].nodes.map((item) => {
-            return { id:item.id, text: item.title };
-          });
-          break;
-      }
-
-      // 顶部男女生切换右侧导航回归第一个
-      this.activeIndex = 0;
-      this.getTypeBooks(this.items[0].id);
-    },
-  },
-  methods: {
-    //右侧数据封装
-    getTypeBooks(type) {
-      window
-        .axios(
-          `https://b.zhuishushenqi.com/category/rankinfo?ajax=ajax&size=100&st=1&node=${type}&token=&type=&packageName=&userid=`
-        )
-        .then((result) => {
-          this.rightContent = result.data.book;
-        });
-    },
-    //数据切换
-    typeToggle(index) {
-      this.getTypeBooks(this.items[index].id);
-      // console.log(index);
-    },
-    ccc(id){
-      this.$router.push({name:'BookInfo',query:{id:id}})
-
-    }
-  },
-  // computed: {
-  //   leftNavAlter() {
-  //     switch (this.active) {
-  //       case 0:
-  //         e.data.data.nodes[2].nodes.map((item) => {
-  //           return { ...item, text: item.title };
-  //         });
-  //       case 1:
-  //         e.data.data.nodes[1].nodes.map((item) => {
-  //           return { ...item, text: item.title };
-  //         });
-  //       default:
-  //         e.data.data.nodes[1].nodes.map((item) => {
-  //           return { ...item, text: item.title };
-  //         });
-  //     }
-  //   },
-  // },
 };
 </script>
 <style lang="less">
@@ -233,32 +187,32 @@ export default {
   }
 
   //榜单
-  .van-tree-select {
-    height: 80% !important;
-    .van-tree-select__content {
-      padding: 10px;
-    }
-    .van-tree-select__nav {
-      flex: none;
-      width: 70px;
-      background: white;
-      border-right: @borderBtm;
-      .van-sidebar-item--select {
-        background: #f7f8fa !important;
-      }
-      .van-sidebar-item {
-        background: white;
-        &:before {
-          width: 2px;
-        }
-      }
-      .van-tree-select__nav-item{
-        padding: 18px 12px;
-      }
-    }
-    .van-sidebar {
-    }
-  }
+  // .van-tree-select {
+  //   height: 80% !important;
+  //   .van-tree-select__content {
+  //     padding: 10px;
+  //   }
+  //   .van-tree-select__nav {
+  //     flex: none;
+  //     width: 70px;
+  //     background: white;
+  //     border-right: @borderBtm;
+  //     .van-sidebar-item--select {
+  //       background: #f7f8fa !important;
+  //     }
+  //     .van-sidebar-item {
+  //       background: white;
+  //       &:before {
+  //         width: 2px;
+  //       }
+  //     }
+  //     .van-tree-select__nav-item{
+  //       padding: 18px 12px;
+  //     }
+  //   }
+  //   .van-sidebar {
+  //   }
+  // }
 
   .van-card {
     background-color: white;
@@ -268,7 +222,7 @@ export default {
       position: relative;
       height: @ImgHeight;
       width: 70px;
-      img{
+      img {
         border-radius: 0;
       }
       .book {
@@ -282,7 +236,7 @@ export default {
         content: "";
         .Imgbg();
       }
-       .vip {
+      .vip {
         width: 28px !important;
         position: absolute;
         left: 0px;
@@ -374,16 +328,15 @@ export default {
       margin-top: 18px;
     }
 
-    .van-card__header{
+    .van-card__header {
       width: 100%;
       .van-card__content {
-      h1 {
-        font-size: 14px;
-        font-weight: 600;
+        h1 {
+          font-size: 14px;
+          font-weight: 600;
+        }
       }
     }
-    }
-    
   }
 }
 </style>

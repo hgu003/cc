@@ -6,7 +6,7 @@
                <img src="../../assets/images/bookclassify.png" alt="" srcset="">
            </template>
       </van-grid-item>
-      <van-grid-item  text="排行" :to="{name:'Ranking'}">
+      <van-grid-item  text="排行" :to="{name:'RankingList',query:{type:'male'}}">
             <template #icon>
                <img src="../../assets/images/ranking.png" alt="" srcset="">
            </template>

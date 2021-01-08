@@ -32,7 +32,7 @@
             <p>381828本书</p>
           </div>
         </div>
-        <div class="stack-seniority">
+        <div class="stack-seniority" @click="jumpRank">
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEVHcEzUslrcumHXtV3dumPYt17Zt1/btlrZt1/fvWTZt1/Vs1vXtV3auWDRsFjPrVYVDYbfAAAACXRSTlMAgTnYhMNaDqrGVvuCAAABnklEQVRIx9WVv0vDQBTHr1VyjsXNrbqIq6FgByWLQzdBCnU7UMEOYrTg7CIquCrckH8gxL8gHQVBb3OKkEGkjglY6mjNXX609yONIEJ9633yfe99eLQATF/NPUx+P70uADrdAgDM/AegjH5jsXzeZNXKSzn07xyHELd7Lz3BPfrR+ottE0K6rluVZrduog6+b0cBxHXdigi0UaMaAXGCCtg3F1AGPCkAoD2brEVeAry6ABMTOrcgAR7VCY21SxRv4aiBzWYTCVvAZdk05+EoOMteTpZomVwC7B2/p++zOCrLMrgt4LyWAW0KeBTgPGxspUBdlQDA4msKYJaADc6DtgoH44CHPYPzAHsHQoJv8B523yocYGEj9x6wMKQa8KQtxARs5N4DVnjQavp2TW9V5RaJh1IwpPWR66EUBGEEDJRDJgAjRkCaMAJCHhBM0oQvPoHfQm7heZwHBoTjgCUliDOIHgJmQt7CyWuh2IJvIdzDjzyEBR7CYg/DP/cQKBOIImFHfQ90yD4DVtiMyov6jH8C64kHPSsUA300Hf/V356SpBGx/yAdAAAAAElFTkSuQmCC"
           />
@@ -58,13 +58,29 @@
 
     <!-- 热门畅销 -->
     <GeneralComThree :suspense="hot"></GeneralComThree>
+
+    <!-- 都市休闲 -->
+    <GeneralComThree :suspense="leisure"></GeneralComThree>
+
+    <!-- 热血玄幻，王者归来 -->
+    <GeneralComThree :suspense="blood"></GeneralComThree>
+
+    <!-- 奇闻推理 -->
+    <GeneralComThree :suspense="anecdote"></GeneralComThree>
+
+    <!-- 唐宋明清 -->
+    <GeneralComThree :suspense="dynasty"></GeneralComThree>
+
+    <div class="footer">
+      <span>- 我是有底线的 -</span>
+    </div>
   </div>
 </template>
 
 <script>
-import BookBanner from "../views/BookBanner"
-import manitoNewZuo from "../views/manitoNewZuo"
-import GeneralComThree from "../views/GeneralComThree"
+import BookBanner from "../views/BookBanner";
+import manitoNewZuo from "../views/manitoNewZuo";
+import GeneralComThree from "../views/GeneralComThree";
 export default {
   components: {
     BookBanner,
@@ -75,28 +91,66 @@ export default {
     return {
       banner: "",
       active: 0,
-      recommend:[],
-      hot:[],
+      recommend: [],
+      hot: [],
+      leisure: [],
+      blood: [],
+      anecdote: [],
+      dynasty: [],
     };
   },
   activated() {
-    window
-      .axios(
-        `https://b.zhuishushenqi.com/category/classifylist?node=f47ef06703de47bea719dd9e7bda5381&sex=male&token=&userId=&groupid=&cv=&pl=android&type=vip&appType=&packageName=`
-      )
-      .then((result) => {
-        // console.log(result);
-        // console.log(result.data.data.spread[0].advs);
-        //轮播图
-        this.banner = result.data.data.spread[0].advs;
-        //重磅推荐
-        this.recommend = result.data.data.nodes[0];
-        this.hot = result.data.data.nodes[1];
-      });
+    this.getType();
   },
-  watch:{
-    // active
-  }
+  watch: {
+    active(n) {
+      switch (n) {
+        case 0:
+          this.getType("f47ef06703de47bea719dd9e7bda5381");
+          break;
+        case 1:
+          this.getType("6a70a188b01e4d6c8c9749240a309ebb");
+          break;
+        case 2:
+          this.getType("1369a8d6e24f4c239205c74f7d4fbc2a");
+          break;
+      }
+    },
+  },
+  methods: {
+    getType(node = "f47ef06703de47bea719dd9e7bda5381") {
+      window
+        .axios(
+          `https://b.zhuishushenqi.com/category/classifylist?node=${node}&sex=male&token=&userId=&groupid=&cv=&pl=android&type=vip&appType=&packageName=`
+        )
+        .then((result) => {
+          // 轮播图
+          this.banner = result.data.data.spread[0].advs;
+          // 重磅推荐
+          this.recommend = result.data.data.nodes[0];
+          // 热门畅销
+          this.hot = result.data.data.nodes[1];
+          // 都市休闲
+          this.leisure = result.data.data.nodes[2];
+          //热血玄幻，王者归来
+          this.blood = result.data.data.nodes[3];
+          //奇闻推理
+          this.anecdote = result.data.data.nodes[4];
+          //唐宋明清
+          this.dynasty = result.data.data.nodes[5];
+        });
+    },
+    jumpRank() {
+      this.$router.push({
+        name: "RankingList",
+        query: {
+          type:
+            this.active == 0 ? "male" : this.active == 1 ? "female" : "publish",
+          listType: "vip",
+        },
+      });
+    },
+  },
 };
 </script>
 
@@ -105,6 +159,7 @@ export default {
   padding-top: 58.4px;
   // 顶部
   .van-nav-bar {
+    z-index: 100;
     .van-nav-bar__content {
       height: 58.4px;
       .van-nav-bar__left {
@@ -230,6 +285,13 @@ export default {
         }
       }
     }
+  }
+
+  // 底部
+  .footer {
+    text-align: center;
+    padding: 20px 0 15px;
+    color: #ccc;
   }
 }
 </style>

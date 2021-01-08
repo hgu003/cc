@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/bookshelf',
     name: 'bookshelf',
-    meta:{bottomShow:true},
+    meta: { bottomShow: true },
     component: bookshelf
   },
   {
@@ -21,22 +21,22 @@ const routes = [
     component: bookstore,
     redirect: 'StoreChoiceness',
     children: [
-      { path: '/StoreChoiceness', name: 'StoreChoiceness',meta:{bottomShow:true}, component: () => import('../components/bookstore/StoreChoiceness.vue') },
-      { path: 'NewBook', name: 'NewBook',meta:{bottomShow:true}, component: () => import('../components/bookstore/NewBook/NewBook.vue') },
-      { path: 'bookmale', name: 'bookmale',meta:{bottomShow:true}, component: bookmale },
-      { path: 'bookfemale', name: 'bookfemale',meta:{bottomShow:true}, component: bookfemale },
+      { path: '/StoreChoiceness', name: 'StoreChoiceness', meta: { bottomShow: true }, component: () => import('../components/bookstore/StoreChoiceness.vue') },
+      { path: 'NewBook', name: 'NewBook', meta: { bottomShow: true }, component: () => import('../components/bookstore/NewBook/NewBook.vue') },
+      { path: 'bookmale', name: 'bookmale', meta: { bottomShow: true }, component: bookmale },
+      { path: 'bookfemale', name: 'bookfemale', meta: { bottomShow: true }, component: bookfemale },
     ]
   },
   {
     path: '/discover',
     name: 'discover',
-    meta:{bottomShow:true},
+    meta: { bottomShow: true },
     component: () => import('../components/discover/Discover.vue')
   },
   {
     path: '/account',
     name: 'account',
-    meta:{bottomShow:true},
+    meta: { bottomShow: true },
     component: () => import('../components/account/Account.vue')
   },
   //高分神作等的跳转
@@ -58,8 +58,15 @@ const routes = [
   {
     path: '/Ranking',
     name: 'Ranking',
-    // meta:{bottomShow:true},
-    component: () => import('../components/bookstore/Ranking.vue'),
+    component: () => import('../views/Ranking/Ranking.vue'),
+    children: [
+      {
+        path: '/',
+        name: 'RankingList',
+        component: () => import('../views/Ranking/RankList.vue'),
+
+      }
+    ],
   },
   //书本信息
   {
