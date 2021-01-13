@@ -107,7 +107,7 @@ export default {
       let books = [];
       books = n.books.sort(() => Math.random() - 0.5);
       this.topBook = books[0];
-      this.bookList = books.slice(1);
+      this.bookList = books.slice(1,5);
     },
   },
   computed: {},
@@ -220,15 +220,15 @@ export default {
     }
   }
   .vip {
-    width: 28px !important;
+    width: @vipW !important;
     position: absolute;
     left: 0px;
     top: 4px;
     z-index: 1;
   }
   .finish {
-    // width: 30px;
-    height: 20px !important;
+   width: @finishW;
+        height: @finishH !important;
     position: absolute !important;
     right: 0px;
     top: 2px;

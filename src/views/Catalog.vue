@@ -1,7 +1,7 @@
 <template>
   <div class="catalog">
     <van-nav-bar
-      :title="book.title"
+      :title="item.title"
       left-arrow
       @click-left="$router.back()"
       fixed
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       chapters: [],
+      item:this.book,
     };
   },
   methods: {
@@ -54,7 +55,7 @@ export default {
   activated() {
     window
       .axios(
-        ` http://novel.kele8.cn/book-sources?view=summary&book=${this.book._id}`
+        ` http://novel.kele8.cn/book-sources?view=summary&book=${this.item._id}`
       )
       .then((id) => {
         window

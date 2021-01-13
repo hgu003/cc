@@ -8,7 +8,7 @@
       indicator-color="rgba(0,0,0,0.5)"
       @change="onChange"
     >
-      <van-swipe-item v-for="(img, index) in imgs" :key="index">
+      <van-swipe-item v-for="(img, index) in imgs" :key="index" @click="pushInfo(img)">
         <van-image width="100%" :src="img.img" fit="contain" radius="10px">
           <template v-slot:loading>
             <van-loading type="spinner" size="20" />
@@ -36,11 +36,23 @@ export default {
     // console.log(this.imgs);
 
     },
+    pushInfo(img){
+      if(this.$route.path=="/NewBook")return;
+      let id=img.link.match(/\d{1}\w+/)[0];
+      // console.log(id);
+      // console.log(img.link);
+      this.$router.push({ name: "BookInfo", params: { id: id } });
+    }
+  },
+  activated(){
+    if(this.imgs[0]){
+      this.onChange(0);
+    }
   },
   watch:{
     imgs(){
         //进来的时候获取背景色
-      this.onChange('0');
+      this.onChange(0);
     }
   },
   // mounted(){

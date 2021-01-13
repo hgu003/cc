@@ -6,7 +6,7 @@
 
     <van-grid :border="false" >
       <template v-for="(item, index) in BookList">
-        <van-grid-item :key="index" :to="{name:'BookInfo',query:{id:item._id}}">
+        <van-grid-item :key="index" :to="{name:'BookInfo',params:{id:item._id}}">
           <template #icon>
             <img
               src="../assets/images/bookvip.png"
@@ -104,15 +104,15 @@ export default {
     .van-grid-item__icon-wrapper {
       position: relative;
       .vip {
-        width: 28px;
+        width: @vipW;
         position: absolute;
         left: 0px;
         top: 4px;
         z-index: 1;
       }
       .finish {
-        width: 30px;
-        height: 19px;
+        width: @finishW;
+        height: @finishH;
         position: absolute;
         right: 0px;
         top: 2px;

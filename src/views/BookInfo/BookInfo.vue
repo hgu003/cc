@@ -6,6 +6,7 @@
       :style="{
         backgroundImage: `url(http://statics.zhuishushenqi.com${bookMsg.cover})`,
       }"
+      v-if="bookMsg.cover"
     ></div>
     <!-- 顶部导航 -->
     <div
@@ -43,6 +44,7 @@
           <img
             :src="`http://statics.zhuishushenqi.com${bookMsg.cover}`"
             class="book"
+            v-if="bookMsg.cover"
           />
         </template>
         <template #desc>
@@ -127,8 +129,9 @@
         </div>
         <shortReview
           :shortReview="shortReview"
-          v-if="shortReview"
         ></shortReview>
+
+        <div v-if="!shortReview" class="not">暂无短评</div>
         <div class="shortReview-footer">
           <button>查看全部短评</button>
         </div>
@@ -264,7 +267,7 @@ export default {
       rating: "",
       value: 3,
       lineCamp: false, //显示行数控制
-      shortReview: [], //短评
+      shortReview: "", //短评
       bookReview: [], //书评
       other: [], //作者的其他作品
       Alsothe: [], //本书追还在读
@@ -273,10 +276,8 @@ export default {
     };
   },
   activated() {
-    //关闭底部导航
-    this.$store.commit("toggleBottomNavShow", false);
     //书本信息
-    window.axios("http://novel.kele8.cn/book-info/" + this.id).then((e) => {
+    window.axios("http://api.kele8.cn/agent/http://api.zhuishushenqi.com/book/" + this.id).then((e) => {
       this.bookMsg = e.data;
       this.rating = e.data.rating;
       this.value = e.data.rating.score / 2;
@@ -302,7 +303,7 @@ export default {
         `http://api.kele8.cn/agent/http://community.zhuishushenqi.com/forum/book/${this.id}/hot?block=short_review&limit=10`
       )
       .then((hotduan) => {
-        // console.log(hotduan.data.posts);
+        if(!hotduan.data.posts)return;
         this.shortReview = hotduan.data.posts[0];
       });
 
@@ -676,6 +677,12 @@ export default {
         background: white;
         font-size: 14px;
       }
+    }
+    .not{
+      font-size: 14px;
+      text-align: center;
+      padding: 20px 0;
+      color: #969697;
     }
   }
 

@@ -1,10 +1,10 @@
 <template>
   <div class="GeneralComOneChild">
     <div class="header">
-      <span @click="$router.back()">返回</span>
+      <span @click="$router.back()" class="iconfont icon-fanhui"></span>
       <h3 align="center">{{ query.title }}</h3>
     </div>
-    <van-card
+    <!-- <van-card
       :desc="item.shortIntro"
       :title="item.title"
       v-for="(item, index) in query.books"
@@ -24,7 +24,7 @@
           class="finish"
           v-if="!item.isSerial"
         />
-        <img :src="item.cover" alt="" class="book" />
+        <img :src="item.cover | cover" alt="" class="book" />
       </template>
       <template #bottom>
         <span>
@@ -39,20 +39,29 @@
         </span>
         <span class="tag">{{ item.majorCate }}</span>
       </template>
-    </van-card>
+    </van-card> -->
+    <general-card v-for="(item, index) in books" :key="index" :item="item">
+    </general-card>
   </div>
 </template>
 
 <script>
+import GeneralCard from "./GeneralCard";
 export default {
+  components: {
+    GeneralCard,
+  },
   props: ["query"],
-  filters: {
-    latelyFollower(val) {
-      return (val / 10000).toFixed(1) + "万";
-    },
+  data() {
+    return {
+      books: this.query.books,
+    };
   },
   activated() {
-    this.$store.commit("toggleBottomNavShow", false);
+    if (typeof this.query.books[0] == "object") {
+      localStorage.setItem("booklist", JSON.stringify(this.query.books));
+    }
+    this.books = JSON.parse(localStorage.getItem("booklist"));
   },
 };
 </script>
@@ -60,15 +69,18 @@ export default {
 <style lang="less">
 .GeneralComOneChild {
   .header {
-    padding: 20px 15px 10px 15px;
+    padding: 20px 15px 10px 20px;
     position: relative;
     h3 {
       font-weight: bold;
+      font-size: 16px;
     }
-    span {
+    .icon-fanhui {
       margin-left: 15px;
       position: absolute;
       left: 0;
+      font-size: 18px;
+      color: #d81e06;
     }
   }
   .van-card {
@@ -90,15 +102,15 @@ export default {
         border-radius: 3px;
       }
       .vip {
-        width: 28px !important;
+        width: @vipW !important;
         position: absolute;
         left: 0px;
         top: 4px;
         z-index: 1;
       }
       .finish {
-        // width: 30px;
-        height: 20px !important;
+       width: @finishW;
+        height: @finishH !important;
         position: absolute !important;
         right: 0px;
         top: 2px;

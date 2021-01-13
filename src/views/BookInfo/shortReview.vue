@@ -1,9 +1,9 @@
 <template>
-  <div class="shortReview-con" >
+  <div class="shortReview-con" v-if="userObj.content">
           <div class="user"  >
             <img
             v-if="avatar"
-              :src="'http://statics.zhuishushenqi.com'+avatar" 
+              :src="avatar" 
             />
             <span class="username">{{author.nickname}}</span>
             <span class="level">Lv.{{author.lv}}</span>
@@ -17,6 +17,7 @@
               void-color="#ccc"
               allow-half
               readonly
+              v-if="shortReview"
             />
             <span>{{value==5?'必看神作':value==4?'非常好看':value==3?'值得一看':'浪费生命'}}</span>
           </div>
@@ -39,9 +40,8 @@ export default {
     },
     watch:{
         shortReview(n){
-            // console.log(n);
             this.author = n.author;
-            this.avatar = n.author.avatar;
+            this.avatar = 'http://statics.zhuishushenqi.com'+n.author.avatar;
             this.userObj = n;
             this.value = this.userObj.rating;
         }

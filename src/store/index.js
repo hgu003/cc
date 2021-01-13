@@ -6,45 +6,19 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     navbg:'',
-    bottomNavShow:true,
     cacheNav:'/StoreChoiceness',
-    bookChapter:'',
-    currentChapter:'',
-    bookCon:'',
+    historyShow:false,
   },
   mutations: {
-    changenavbg(state,bg){
+    //切换背景颜色
+    changenavbg(state,bg="#f03e3e"){
+      bg=bg?bg:"#f03e3e";
       state.navbg = bg;
     },
-    toggleBottomNavShow(state,show){
-      state.bottomNavShow = show;
-    },
-    toggleNav(state,index){
-      state.cacheNav = index;
-    }
-    // getCatalog(state,id){
-    //   console.log('我要进来了');
-    //   window
-    //   .axios(
-    //     ` http://novel.kele8.cn/book-sources?view=summary&book=${id}`
-    //   )
-    //   .then((id) => {
-    //     window
-    //       .axios(`http://novel.kele8.cn/book-chapters/${id.data[0]._id}`)
-    //       .then((e) => {
-    //         state.bookChapter = e.data.chapters;
-    //       });
-    //   });
-    // },
-    // getCatalogCon(state,link){
-    //   window.axios('http://novel.kele8.cn/chapters/'+link)
-    //   .then(result=>{
-    //     // console.log(state,link);
-    //     console.log(result);
-    //   })
-    //   console.log(state);
-    //   console.log(link);
-    // },
+    //切换顶部导航
+    toggleNav:(state,index)=>state.cacheNav = index,
+    //历史记录组件隐藏切换
+    toggleHistory:(state,show)=>state.historyShow = show,
   },
   actions: {
     // getCatalog({commit},book){

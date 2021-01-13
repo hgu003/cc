@@ -2,10 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import bookshelf from '../components/bookshelf/BookShelf.vue'
 import bookstore from '../components/bookstore/BookStore.vue'
-import bookmale from '../components/bookstore/BookMale.vue'
-import bookfemale from '../components/bookstore/BookFemale.vue'
+import Male from '../components/bookstore/Male/Male.vue'
+import Female from '../components/bookstore/Female/Female.vue'
 import GeneralComOneChild from '../views/GeneralComOneChild.vue'
-
+// import Ranking from '../views/Ranking/Ranking.vue'
+// import RankList from '../views/Ranking/RankList.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,8 +24,14 @@ const routes = [
     children: [
       { path: '/StoreChoiceness', name: 'StoreChoiceness', meta: { bottomShow: true }, component: () => import('../components/bookstore/StoreChoiceness.vue') },
       { path: 'NewBook', name: 'NewBook', meta: { bottomShow: true }, component: () => import('../components/bookstore/NewBook/NewBook.vue') },
-      { path: 'bookmale', name: 'bookmale', meta: { bottomShow: true }, component: bookmale },
-      { path: 'bookfemale', name: 'bookfemale', meta: { bottomShow: true }, component: bookfemale },
+      { path: 'Male', name: 'Male', meta: { bottomShow: true }, component: Male },
+      { path: 'Female', name: 'Female', meta: { bottomShow: true }, component: Female },
+      {
+        path: '/Publish',
+        name: 'Publish',
+        meta: { bottomShow: true },
+        component: () => import('../components/bookstore/Publish/Publish.vue'),
+      },
     ]
   },
   {
@@ -43,7 +50,6 @@ const routes = [
   {
     path: '/GeneralComOneChild',
     name: 'GeneralComOneChild',
-    // meta:{bottomShow:true},
     component: GeneralComOneChild,
     props: (route) => ({ query: route.query })
   },
@@ -51,13 +57,24 @@ const routes = [
   {
     path: '/Classify',
     name: 'Classify',
-    // meta:{bottomShow:true},
     component: () => import('../components/bookstore/Classify.vue')
+  },
+  //具体分类
+  {
+    path:"/category",
+    name:"category",
+    component:()=>import("../views/category.vue"),
+    props:(route)=>({query:route.query.query,gender:route.query.gender,alias:route.query.alias}),
   },
   //排行榜
   {
     path: '/Ranking',
     name: 'Ranking',
+    redirect: '/',
+    // components:{
+    //  Ranking,
+    //   RankList
+    // }
     component: () => import('../views/Ranking/Ranking.vue'),
     children: [
       {
@@ -70,10 +87,10 @@ const routes = [
   },
   //书本信息
   {
-    path: '/BookInfo',
+    path: '/BookInfo/:id',
     name: 'BookInfo',
     component: () => import('../views/BookInfo/BookInfo.vue'),
-    props: (route) => ({ id: route.query.id })
+    props: true
   },
 
   //目录
@@ -98,6 +115,39 @@ const routes = [
     name: 'Vip',
     component: () => import('../components/Vip.vue'),
   },
+
+  //大神红文
+  {
+    path: '/manitoRedBook',
+    name: 'manitoRedBook',
+    component: () => import('../views/manitoRedBook/manitoRedBook.vue'),
+  },
+
+  //搜索
+  {
+    path:"/Search",
+    name:"Search",
+    redirect:"Search",
+    component:()=>import("../views/Search/Search.vue"),
+    children:[
+      {
+        path: '/',
+        name: 'SearchRelated',
+        component: () => import('../views/Search/SearchRelated.vue'),
+      },
+      {
+        path: 'Suggestions',
+        name: 'Suggestions',
+        component: () => import('../views/Search/Suggestions.vue'),
+      },
+      {
+        path: '/SearchrResult',
+        name: 'SearchrResult',
+        component: () => import('../views/Search/SearchrResult.vue'),
+      },
+    ]
+  }
+
 ]
 
 const router = new VueRouter({

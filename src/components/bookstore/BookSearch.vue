@@ -1,6 +1,6 @@
 <template>
   <div class="book-search">
-      <van-search :value="text" @input="text=$event" shape="round" placeholder="请输入搜索关键词" background="transparent"/>
+      <van-search :value="text" @input="text=$event" shape="round" placeholder="请输入搜索关键词" background="transparent" @click="$router.push({name:'Search'})"/>
   </div>
 </template>
 

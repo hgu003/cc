@@ -68,7 +68,6 @@ export default {
     };
   },
   created() {
-    this.$store.commit("toggleBottomNavShow", false);
     window.axios("https://b.zhuishushenqi.com/category/statics").then((e) => {
       let data = e.data;
       this.male = data;

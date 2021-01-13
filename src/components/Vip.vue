@@ -9,6 +9,7 @@
     <div class="Vip-banner">
       <book-banner :imgs="banner"></book-banner>
     </div>
+    <!-- 用户信息 -->
     <div class="userInfo">
       <div class="inner">
         <div class="avater"></div>
@@ -21,7 +22,7 @@
     </div>
 
     <!-- 书库以及vip排行 -->
-    <div class="link">
+    <!-- <div class="link">
       <div class="inner">
         <div class="stack-seniority">
           <img
@@ -42,35 +43,42 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- 类型导航 -->
-    <div class="Booktype">
+    <!-- <div class="Booktype">
       <ul>
         <li :class="{ active: active == 0 }" @click="active = 0">男生</li>
         <li :class="{ active: active == 1 }" @click="active = 1">女生</li>
         <li :class="{ active: active == 2 }" @click="active = 2">出版</li>
       </ul>
-    </div>
+    </div> -->
 
     <!-- 重磅推荐 -->
-    <manitoNewZuo :books="recommend"></manitoNewZuo>
+    <!-- <manitoNewZuo :books="recommend"></manitoNewZuo> -->
 
     <!-- 热门畅销 -->
-    <GeneralComThree :suspense="hot"></GeneralComThree>
+    <!-- <GeneralComThree :suspense="hot"></GeneralComThree> -->
 
     <!-- 都市休闲 -->
-    <GeneralComThree :suspense="leisure"></GeneralComThree>
+    <!-- <GeneralComThree :suspense="leisure"></GeneralComThree> -->
 
     <!-- 热血玄幻，王者归来 -->
-    <GeneralComThree :suspense="blood"></GeneralComThree>
+    <!-- <GeneralComThree :suspense="blood"></GeneralComThree> -->
 
     <!-- 奇闻推理 -->
-    <GeneralComThree :suspense="anecdote"></GeneralComThree>
+    <!-- <GeneralComThree :suspense="anecdote"></GeneralComThree> -->
 
     <!-- 唐宋明清 -->
-    <GeneralComThree :suspense="dynasty"></GeneralComThree>
-
+    <!-- <GeneralComThree :suspense="dynasty"></GeneralComThree> -->
+    <vipand-free
+      :recommend="recommend"
+      :hot="hot"
+      :leisure="leisure"
+      :blood="blood"
+      :anecdote="anecdote"
+      :dynasty="dynasty"
+    ></vipand-free>
     <div class="footer">
       <span>- 我是有底线的 -</span>
     </div>
@@ -79,18 +87,19 @@
 
 <script>
 import BookBanner from "../views/BookBanner";
-import manitoNewZuo from "../views/manitoNewZuo";
-import GeneralComThree from "../views/GeneralComThree";
+import VipandFree from "../views/VipandFree"
+// import manitoNewZuo from "../views/manitoNewZuo";
+// import GeneralComThree from "../views/GeneralComThree";
 export default {
   components: {
     BookBanner,
-    manitoNewZuo,
-    GeneralComThree,
+    // manitoNewZuo,
+    // GeneralComThree,
+    VipandFree,
   },
   data() {
     return {
       banner: "",
-      active: 0,
       recommend: [],
       hot: [],
       leisure: [],

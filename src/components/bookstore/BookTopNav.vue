@@ -24,14 +24,14 @@
         <!-- <new-book></new-book> -->
         <!-- <router-view></router-view> -->
       </van-tab>
-      <van-tab title="男频" to="/bookfemale">
+      <van-tab title="男频" to="/Male">
         <!-- <router-view></router-view> -->
         <!-- <book-male></book-male> -->
       </van-tab>
-      <van-tab title="女频">
+      <van-tab title="女频" to="/Female">
         <!-- <router-view></router-view> -->
       </van-tab>
-      <van-tab title="vip">
+      <van-tab title="出版" to="/Publish">
         <!-- <router-view></router-view> -->
       </van-tab>
     </van-tabs>
@@ -64,8 +64,14 @@ export default {
       case "/NewBook":
         this.active = 1;
         break;
-      case "/bookfemale":
+      case "/Male":
         this.active = 2;
+        break;
+      case "/Female":
+        this.active = 3;
+        break;
+      case "/Publish":
+        this.active = 4;
         break;
     }
   },
@@ -80,10 +86,15 @@ export default {
           this.$store.commit("toggleNav", "/NewBook");
           break;
         case 2:
-          this.$store.commit("toggleNav", "/bookfemale");
+          this.$store.commit("toggleNav", "/Male");
+          break;
+        case 3:
+          this.$store.commit("toggleNav", "/Female");
+          break;
+        case 4:
+          this.$store.commit("toggleNav", "/Publish");
           break;
       }
-      // console.log(this.$router);
     },
   },
   computed: {

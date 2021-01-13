@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <keep-alive>
-    <router-view></router-view>
+    <router-view :key="$route.path" v-if="$route.path.includes('/BookInfo')"></router-view>
+    <router-view v-if="!$route.path.includes('/BookInfo')"></router-view>
+    <!-- <router-view v-if="$route.path.includes('/BookInfo')"></router-view>
+    <router-view></router-view> -->
     </keep-alive>
 
     <van-tabbar v-model="active" active-color="#ee0a24" class="bottom-nav"  v-if="$route.meta.bottomShow">

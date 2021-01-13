@@ -1,5 +1,5 @@
 <template>
-  <div class="AlsoThe-con-child">
+  <div class="AlsoThe-con-child" @click="$router.push({ name: 'BookInfo', params: { id: book._id } });">
     <div class="imgBox">
       <img src="../../assets/images/bookvip.png" class="vip" v-if="book.allowMonthly"/>
       <img src="../../assets/images/已完结.png" class="finish" v-if="!book.isSerial"/>

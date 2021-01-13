@@ -1,30 +1,34 @@
 <template>
-  <div class="store-recommed">
-    <general-title :goto="{ name: 'GeneralComOneChild', list: highWords }"
-      >高分神作
+  <div class="Original">
+    <general-title :goto="{ name: 'GeneralComOneChild', list: book }"
+      >{{ book.title }}
     </general-title>
 
-    <van-grid :border="false" >
+    <van-grid :border="false">
       <template v-for="(item, index) in BookList">
-        <van-grid-item :key="index" :to="{name:'BookInfo',params:{id:item._id}}">
+        <van-grid-item
+          :key="index"
+          :to="{ name: 'BookInfo', query: { id: item._id } }"
+        >
           <template #icon>
             <img
-              src="../../assets/images/bookvip.png"
+              src="../../../assets/images/bookvip.png"
               class="vip"
               v-if="item.allowMonthly"
             />
             <img
-              src="../../assets/images/已完结.png"
+              src="../../../assets/images/已完结.png"
               class="finish"
               v-if="!item.isSerial"
             />
-            <van-image :src="item.cover" />
+            <van-image :src="'http://statics.zhuishushenqi.com' + item.cover" />
           </template>
           <template #text>
             <p class="title">{{ item.title }}</p>
             <p class="rating">
-             <span>{{ item.retentionRatio }}%</span>留存
-              </p>
+              <span>{{ item.latelyFollower }}</span
+              >人气
+            </p>
           </template>
         </van-grid-item>
       </template>
@@ -33,9 +37,9 @@
 </template>
 
 <script>
-import GeneralTitle from "../../views/GeneralTitle";
+import GeneralTitle from "../../../views/GeneralTitle";
 export default {
-  props: ["highWords"],
+  props: ["book"],
   components: {
     GeneralTitle,
   },
@@ -44,17 +48,16 @@ export default {
       BookList: [],
     };
   },
-  created() {
-    setTimeout(() => {
-      this.BookList = this.highWords.books
-        .slice(0, 8)
-    }, 1000);
+  watch: {
+    book(n) {
+      this.BookList = n.books.slice(0, 4);
+    },
   },
 };
 </script>
 
 <style lang="less">
-.store-recommed {
+.Original {
   background: white;
   .van-grid {
     padding: 0 8px;
@@ -84,7 +87,7 @@ export default {
         width: 100%;
         font-weight: 600;
         padding-top: 7px;
-        span{
+        span {
           display: inline-block;
           transform: scaleY(1.2);
         }

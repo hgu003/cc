@@ -1,14 +1,6 @@
 <template>
-  <div class="GeneralComThree">
-    <general-title :goto="{ name: 'GeneralComOneChild', list: suspense }">
-      {{ suspense.title }}
-    </general-title>
-
-    <!-- <van-card
-      :desc="item.shortIntro"
-      v-for="(item, index) in BookList"
-      :key="index"
-    >
+  <div class="GeneralCard">
+    <van-card :desc="item.shortIntro" @click="pushInfo">
       <template #title>
         <h1>{{ item.title }}</h1>
       </template>
@@ -25,7 +17,7 @@
           class="finish"
           v-if="!item.isSerial"
         />
-        <img :src="item.cover | cover" alt="" class="book" />
+        <img :src="item.cover | cover" alt="" class="book" v-if="item.cover" />
       </template>
 
       <template #price> {{ item.author }} </template>
@@ -33,60 +25,39 @@
       <template #num>
         <span>{{ item.majorCate }}</span>
         <span class="retained">
-          <span >{{
-            item.retentionRatio
-          }}%</span>留存
+          <span>{{ item.retentionRatio }}%</span>留存
         </span>
-        
-          
       </template>
-    </van-card> -->
-
-      <general-card v-for="(item,index) in BookList" :key="index" :item="item">
-      </general-card>
-    <div class="border-bto"></div>
+    </van-card>
   </div>
 </template>
 
 <script>
-import GeneralTitle from "./GeneralTitle";
-import GeneralCard from "./GeneralCard"
 export default {
-  props: ["suspense"],
-  components: {
-    GeneralTitle,
-    GeneralCard,
+  props: ["item"],
+  filters: {
+    wordCounts(val) {
+      return parseInt(val / 10000);
+    },
+    cover(val) {
+      if (val.startsWith("//")) {
+        return val;
+      } else {
+        return "http://statics.zhuishushenqi.com" + val;
+      }
+    },
   },
-  data() {
-    return {
-      BookList: [],
-    };
+  methods: {
+    pushInfo() {
+      this.$router.push({ name: "BookInfo", params: { id: this.item._id } });
+    },
   },
-  watch: {
-    suspense(n){
-       this.BookList = n.books
-        .slice(0, 3)
-        .sort(() => Math.random() - 0.5);
-    }
-  },
-  // filters: {
-  //   wordCounts(val) {
-  //     return parseInt(val / 10000);
-  //   },
-  //    cover(val) {
-  //     if (val.startsWith("//")) {
-  //       return val;
-  //     } else {
-  //       return "http://statics.zhuishushenqi.com" + val;
-  //     }
-  //   },
-  // },
 };
 </script>
 
 <style lang="less">
-.GeneralComThree {
-  background-color: white;
+.GeneralCard {
+  margin: 10px 0;
   .van-card {
     background-color: white;
     padding-top: 0;
@@ -141,12 +112,12 @@ export default {
         border-radius: 3px;
         border: 1px solid #ccc;
         color: #858383;
-        zoom: .9;
+        zoom: 0.9;
         &:last-child {
           margin-left: 5px;
           color: #da3d3f;
           border-color: #da3d3f;
-          >span{
+          > span {
             display: inline-block;
             font-weight: 700;
             transform: scaleY(1.1);
@@ -167,15 +138,6 @@ export default {
         font-weight: 600;
       }
     }
-  }
-
-  .border-bto {
-    width: 85%;
-    padding: 0 16px;
-    position: relative;
-    left: 4%;
-    border-bottom: 0.5px solid #f0ecec;
-    margin-top: 15px;
   }
 }
 </style>

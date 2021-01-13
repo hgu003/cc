@@ -8,7 +8,7 @@
           <img src="../../assets/images/line.png" alt="" />
         </div>
         <ul>
-          <li v-for="(item, index) in books" :key="index">
+          <li v-for="(item, index) in books" :key="index" @click="$router.push({name:'category',query:{query:item.name,gender:item.gender,alias:item.alias}})">
             <div class="bookMsg">
               <h3>{{ item.name }}</h3>
               <p>{{ item.bookCount }}本</p>

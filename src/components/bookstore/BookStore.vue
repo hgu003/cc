@@ -62,6 +62,9 @@ export default {
       this.TopNavChangebg = isFixed.scrollTop >= 200 ? true : false;
     },
   },
+  activated(){
+      // this.onChange('0');
+  }
 };
 </script>
 

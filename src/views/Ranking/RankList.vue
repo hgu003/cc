@@ -4,9 +4,10 @@
       :items="items"
       :main-active-index.sync="activeIndex"
       @click-nav="typeToggle"
+      height="550px"
     >
       <template #content>
-        <van-card
+        <!-- <van-card
           :desc="item.shortIntro"
           v-for="(item, index) in rightContent"
           :key="index"
@@ -41,20 +42,25 @@
               <div>{{ item.bookIndicator }}</div>
             </div>
           </template>
-        </van-card>
+        </van-card> -->
+        <ranking-card v-for="(item, index) in rightContent" :key="index" :item="item" :index="index"></ranking-card>
       </template>
     </van-tree-select>
   </div>
 </template>
 
 <script>
+import RankingCard from "./RankingCard"
 export default {
-  props: ["active",'leftNav'],
+  props: ["active", "leftNav"],
+  components:{
+    RankingCard,
+  },
   data() {
     return {
-      items:[],
-      activeIndex:0,
-      rightContent:[],
+      items: [],
+      activeIndex: 0,
+      rightContent: [],
     };
   },
   watch: {
@@ -62,17 +68,17 @@ export default {
       switch (n) {
         case 0:
           this.items = this.leftNav[2].nodes.map((item) => {
-            return { id:item.id, text: item.title };
+            return { id: item.id, text: item.title };
           });
           break;
         case 1:
           this.items = this.leftNav[1].nodes.map((item) => {
-            return { id:item.id, text: item.title };
+            return { id: item.id, text: item.title };
           });
           break;
         default:
           this.items = this.leftNav[0].nodes.map((item) => {
-            return { id:item.id, text: item.title };
+            return { id: item.id, text: item.title };
           });
           break;
       }
@@ -82,54 +88,51 @@ export default {
       this.getTypeBooks(this.items[0].id);
     },
   },
-  activated(){
-    if(this.$route.query.listType){
-      let typeIndex = this.items.findIndex(item=> item.text=="VIP榜");
+  activated() {
+    if (this.$route.query.listType) {
+      let typeIndex = this.items.findIndex((item) => item.text == "VIP榜");
       this.activeIndex = typeIndex;
       this.getTypeBooks(this.items[typeIndex].id);
     }
   },
-    methods: {
-      //右侧数据封装
-      getTypeBooks(type) {
-        window
-          .axios(
-            `https://b.zhuishushenqi.com/category/rankinfo?ajax=ajax&size=100&st=1&node=${type}&token=&type=&packageName=&userid=`
-          )
-          .then((result) => {
-            this.rightContent = result.data.book;
-          });
-      },
-      //数据切换
-      typeToggle(index) {
-        this.getTypeBooks(this.items[index].id);
-        // console.log(index);
-      },
-      ccc(id) {
-        this.$router.push({ name: "BookInfo", query: { id: id } });
-      },
+  methods: {
+    //右侧数据封装
+    getTypeBooks(type) {
+      window
+        .axios(
+          `https://b.zhuishushenqi.com/category/rankinfo?ajax=ajax&size=100&st=1&node=${type}&token=&type=&packageName=&userid=`
+        )
+        .then((result) => {
+          this.rightContent = result.data.book;
+        });
     },
-  
+    //数据切换
+    typeToggle(index) {
+      this.getTypeBooks(this.items[index].id);
+    },
+  },
 };
 </script>
 
 <style lang="less">
 .RankList {
   .van-tree-select {
-    height: 80% !important;
     .van-tree-select__content {
       padding: 10px;
+      padding-bottom: 100px;
     }
     .van-tree-select__nav {
       flex: none;
-      width: 70px;
+      width: 80px;
       background: white;
       border-right: @borderBtm;
       .van-sidebar-item--select {
         background: #f7f8fa !important;
       }
       .van-sidebar-item {
+        color: #8a8a8f;
         background: white;
+        padding: 20px 12px !important;
         &:before {
           width: 2px;
         }
@@ -137,8 +140,6 @@ export default {
       .van-tree-select__nav-item {
         padding: 18px 12px;
       }
-    }
-    .van-sidebar {
     }
   }
 }

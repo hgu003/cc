@@ -17,7 +17,7 @@ export default {
   activated() {
     let link = encodeURIComponent(this.item.link);
     window.axios("http://novel.kele8.cn/chapters/" + link).then((result) => {
-      console.log(result.data.chapter.cpContent.length);
+      // console.log(result.data.chapter.cpContent.length);
       this.content = result.data.chapter;
     });
   },

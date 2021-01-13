@@ -64,14 +64,12 @@ export default {
     GeneralComThree,
     StoreClassify,
   },
-  beforeRouteEnter(to,from,next){
-    next(vm=>{
-      vm.$store.commit("toggleBottomNavShow", true);
-    })
-  },
+  // beforeRouteEnter(to,from,next){
+  //   next(vm=>{
+  //     vm.$store.commit("toggleBottomNavShow", true);
+  //   })
+  // },
   created() {
-
-    //背景图
     this.axios
       .get(
         "https://b.zhuishushenqi.com/category/group-minlist?node=e5fe6058afa449e4a8b9b3fb843c2bcd&sex=male&token=&userId=&cv=&groupid=&pl=null&type=jx&appType=&packageName="

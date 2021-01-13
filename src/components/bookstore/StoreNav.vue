@@ -16,7 +16,7 @@
                <img src="../../assets/images/vip1.png" alt="" srcset="">
            </template>
       </van-grid-item>
-      <van-grid-item  text="大神红文">
+      <van-grid-item  text="大神红文" :to="{name:'manitoRedBook'}">
             <template #icon>
                <img src="../../assets/images/pan.png" alt="" srcset="">
            </template>

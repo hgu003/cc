@@ -34,74 +34,19 @@
         <van-tab title="出版"></van-tab>
       </van-tabs>
 
-      <router-view :active="active" :leftNav="leftNav"></router-view>
-      <!-- <rank-list   :active="active" :leftNav="leftNav"></rank-list> -->
       <!--榜单选择 -->
-      <!-- <van-tree-select
-        :items="items"
-        :active-id.sync="activeId"
-        :main-active-index.sync="activeIndex"
-        @click-nav="typeToggle"
-      >
-        <template #content>
-          <van-card
-            :desc="item.shortIntro"
-            v-for="(item, index) in rightContent"
-            :key="index"
-            class="van-skeleton"
-            @click='ccc(item._id)'
-          >
-            <template #title>
-              <h1>{{ index + 1 }}.{{ item.title }}</h1>
-            </template>
-            <template #thumb>
-               <img
-              src="../../assets/images/bookvip.png"
-              alt=""
-              class="vip"
-              v-if="item.allowMonthly"
-            />
-            <img
-              src="../../assets/images/已完结.png"
-              alt=""
-              class="finish"
-              v-if="!item.isSerial"
-            />
-              <img :src="item.cover" alt="" class="book"/>
-            </template>
-
-            <template #bottom>
-              <div class="auther">
-                {{ item.author }}
-              </div>
-              <div class="tag">
-                <div>{{ item.minorCate }}</div>
-                <div>{{ item.bookIndicator }}</div>
-              </div>
-            </template>
-          </van-card>
-        </template>
-      </van-tree-select> -->
+      <router-view :active="active" :leftNav="leftNav"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-// import RankList from "./RankList"
 export default {
-  components: {
-    // RankList,
-  },
   data() {
     return {
       headerBooks: [],
       active: 1,
-      // 榜单
-      // items: [{text:'111'},{text:'444'}],
-      // activeId: 1,
-      // activeIndex: 0,
       leftNav: [{ text: "111" }, { text: "444" }],
-      // rightContent: [],
       loading: true,
     };
   },
@@ -113,7 +58,6 @@ export default {
       )
       .then((e) => {
         next((vm) => {
-          console.log(vm.$route.query.type);
           //头部小说
           vm.headerBooks = e.data.data.spread[0].advs;
           //左边导航数据
@@ -142,17 +86,26 @@ export default {
 <style lang="less">
 .Ranking {
   .Sucktop {
-    background: white;
     position: fixed;
     top: 0;
     bottom: 0;
     width: 100%;
+    height: 250px;
     z-index: 100;
     &:after {
       content: "";
       height: 0;
       clear: both;
+      display: block;
       visibility: hidden;
+    }
+
+    //头部返回
+    .van-nav-bar__placeholder{
+        height: 52px !important;
+      .van-nav-bar__content{
+        height: 52px !important;
+      }
     }
   }
   .van-nav-bar__content {
@@ -184,6 +137,9 @@ export default {
     .van-tabs__wrap {
       border-bottom: @borderBtm;
     }
+    .van-tab__text{
+      color: #8a8a8f;
+    }
   }
 
   //榜单
@@ -214,129 +170,129 @@ export default {
   //   }
   // }
 
-  .van-card {
-    background-color: white;
-    padding: 0;
-    padding-bottom: 5px;
-    .van-card__thumb {
-      position: relative;
-      height: @ImgHeight;
-      width: 70px;
-      img {
-        border-radius: 0;
-      }
-      .book {
-        height: @ImgHeight;
-        width: 70px;
-        border-radius: 3px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
-        position: relative;
-      }
-      &:after {
-        content: "";
-        .Imgbg();
-      }
-      .vip {
-        width: 28px !important;
-        position: absolute;
-        left: 0px;
-        top: 4px;
-        z-index: 1;
-      }
-      .finish {
-        // width: 30px;
-        height: 20px !important;
-        position: absolute !important;
-        right: 0px;
-        top: 2px;
-        z-index: 10;
-      }
-    }
-    .van-ellipsis {
-      margin-top: 5px;
-      display: -webkit-box;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      white-space: inherit;
-      line-height: 16px;
-      max-height: 32px;
-    }
-    .van-card__bottom {
-      display: flex;
-      align-items: center;
-      height: 25px;
-      line-height: 15px;
-      width: 100%;
-      .tag {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        flex: 1;
-        > div {
-          padding: 2px 5px;
-          border-radius: 20px;
-          color: #858383;
-          font-size: 12px;
-          &:first-child {
-            color: #777;
-            background: #efeff4;
-            zoom: 0.7;
-            margin-right: 10px;
-          }
-          &:last-child {
-            background: rgba(235, 5, 5, 0.1);
-            color: #eb0505;
-            zoom: 0.7;
-          }
-        }
-      }
-      .auther {
-        zoom: 0.9;
-      }
-      .van-card__num {
-        // display: flex;
-        // justify-items: flex-start;
-        // align-items: flex-end;
-        flex: 1;
-        > div {
-          padding: 2px 5px;
-          border-radius: 20px;
-          color: #858383;
-          float: right;
-          &:last-child {
-            color: #777;
-            background: #efeff4;
-            transform: scale(0.7) translateX(62%);
-          }
-          &:first-child {
-            background: rgba(235, 5, 5, 0.1);
-            color: #eb0505;
-            transform: scale(0.7) translateX(18%);
-          }
-        }
-      }
+  // .van-card {
+  //   background-color: white;
+  //   padding: 0;
+  //   padding-bottom: 5px;
+  //   .van-card__thumb {
+  //     position: relative;
+  //     height: @ImgHeight;
+  //     width: 70px;
+  //     img {
+  //       border-radius: 0;
+  //     }
+  //     .book {
+  //       height: @ImgHeight;
+  //       width: 70px;
+  //       border-radius: 3px;
+  //       box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  //       position: relative;
+  //     }
+  //     &:after {
+  //       content: "";
+  //       .Imgbg();
+  //     }
+  //     .vip {
+  //       width: 28px !important;
+  //       position: absolute;
+  //       left: 0px;
+  //       top: 4px;
+  //       z-index: 1;
+  //     }
+  //     .finish {
+  //       // width: 30px;
+  //       height: 20px !important;
+  //       position: absolute !important;
+  //       right: 0px;
+  //       top: 2px;
+  //       z-index: 10;
+  //     }
+  //   }
+  //   .van-ellipsis {
+  //     margin-top: 5px;
+  //     display: -webkit-box;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     -webkit-line-clamp: 2;
+  //     -webkit-box-orient: vertical;
+  //     white-space: inherit;
+  //     line-height: 16px;
+  //     max-height: 32px;
+  //   }
+  //   .van-card__bottom {
+  //     display: flex;
+  //     align-items: center;
+  //     height: 25px;
+  //     line-height: 15px;
+  //     width: 100%;
+  //     .tag {
+  //       display: flex;
+  //       justify-content: flex-end;
+  //       align-items: flex-end;
+  //       flex: 1;
+  //       > div {
+  //         padding: 2px 5px;
+  //         border-radius: 20px;
+  //         color: #858383;
+  //         font-size: 12px;
+  //         &:first-child {
+  //           color: #777;
+  //           background: #efeff4;
+  //           zoom: 0.7;
+  //           margin-right: 10px;
+  //         }
+  //         &:last-child {
+  //           background: rgba(235, 5, 5, 0.1);
+  //           color: #eb0505;
+  //           zoom: 0.7;
+  //         }
+  //       }
+  //     }
+  //     .auther {
+  //       zoom: 0.9;
+  //     }
+  //     .van-card__num {
+  //       // display: flex;
+  //       // justify-items: flex-start;
+  //       // align-items: flex-end;
+  //       flex: 1;
+  //       > div {
+  //         padding: 2px 5px;
+  //         border-radius: 20px;
+  //         color: #858383;
+  //         float: right;
+  //         &:last-child {
+  //           color: #777;
+  //           background: #efeff4;
+  //           transform: scale(0.7) translateX(62%);
+  //         }
+  //         &:first-child {
+  //           background: rgba(235, 5, 5, 0.1);
+  //           color: #eb0505;
+  //           transform: scale(0.7) translateX(18%);
+  //         }
+  //       }
+  //     }
 
-      .van-card__price,
-      .van-card__desc {
-        color: #858383;
-      }
-    }
+  //     .van-card__price,
+  //     .van-card__desc {
+  //       color: #858383;
+  //     }
+  //   }
 
-    .van-card__desc {
-      margin-top: 18px;
-    }
+  //   .van-card__desc {
+  //     margin-top: 18px;
+  //   }
 
-    .van-card__header {
-      width: 100%;
-      .van-card__content {
-        h1 {
-          font-size: 14px;
-          font-weight: 600;
-        }
-      }
-    }
-  }
+  //   .van-card__header {
+  //     width: 100%;
+  //     .van-card__content {
+  //       h1 {
+  //         font-size: 14px;
+  //         font-weight: 600;
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

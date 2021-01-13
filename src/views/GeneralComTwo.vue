@@ -22,7 +22,12 @@
           class="finish"
           v-if="!topBook.isSerial"
         />
-        <img :src="topBook.cover | cover" alt="" class="book" v-if="topBook.cover"/>
+        <img
+          :src="topBook.cover | cover"
+          alt=""
+          class="book"
+          v-if="topBook.cover"
+        />
       </template>
 
       <template #price> {{ topBook.author }} </template>
@@ -97,19 +102,16 @@ export default {
     },
   },
   watch: {
-    boyMustLooks(){
-       let books = [];
+    boyMustLooks() {
+      let books = [];
       books = this.boyMustLooks.books
         .slice(0, 5)
         .sort(() => Math.random() - 0.5);
       this.topBook = books[0];
       this.bookList = books.slice(1);
-    }
-   
+    },
   },
-  computed: {
-   
-  },
+  computed: {},
 };
 </script>
 
@@ -250,15 +252,15 @@ export default {
     }
   }
   .vip {
-    width: 28px !important;
+    width: @vipW !important;
     position: absolute;
     left: 0px;
     top: 4px;
     z-index: 1;
   }
   .finish {
-    // width: 30px;
-    height: 20px !important;
+    width: @finishW;
+    height: @finishH !important;
     position: absolute !important;
     right: 0px;
     top: 2px;
